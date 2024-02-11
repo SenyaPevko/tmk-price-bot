@@ -23,6 +23,7 @@ class Bot:
     def initialize_bot(self):
         @self.bot.message_handler(commands=['start', 'help'])
         def send_welcome(message):
+            # Adding default bot commands
             markup = types.ReplyKeyboardMarkup(row_width=2)
             usd_button = types.KeyboardButton('Курс доллара🇺🇸')
             cny_button = types.KeyboardButton('Курс юаня🇨🇳')

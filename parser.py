@@ -22,14 +22,14 @@ class Parser:
                 rows = table.find_all("tr")
                 for row in rows:
                     cells = row.find_all("td")
-                    # Если есть ячейки и их достаточно для обработки
+                    # Cells must be enough for parsing
                     if len(cells) > 1:
-                        # Извлекаем информацию о котировках для заданного товара
+                        # Fetching info
                         if commodity_name.lower() in cells[0].text.lower():
                             commodity_price = cells[1].text.strip()
                             return commodity_price
 
-                # Если товар не найден
+                # In case cells not found
                 return None
 
             else:

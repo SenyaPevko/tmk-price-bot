@@ -10,6 +10,7 @@ class MongoDBHandler(logging.Handler):
         self.collection = self.db[collection_name]
 
     def emit(self, record):
+        #  basic handler implementation function for writing logs into bd
         log_entry = {
             'timestamp': self.format(record),
             'level': record.levelname,
