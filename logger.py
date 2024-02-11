@@ -3,7 +3,7 @@ import os
 
 from dotenv import load_dotenv
 
-from MongoDBHandler import MongoDBHandler
+from mongo_db_handler import MongoDBHandler
 
 
 class Logger(logging.Logger):
