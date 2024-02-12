@@ -38,7 +38,7 @@ class Bot:
         markup = types.ReplyKeyboardMarkup(row_width=2)
         usd_button = types.KeyboardButton('USD')
         cny_button = types.KeyboardButton('CNY')
-        rub_button = types.KeyboardButton('РУБ')
+        rub_button = types.KeyboardButton('RUB')
         markup.add(usd_button, cny_button, rub_button)
 
         return markup
@@ -122,17 +122,16 @@ class Bot:
             self.bot.reply_to(message, "Пожалуйста, введите числовое значение для веса.")
 
     def process_metal_currency(self, message, metal_search_name, metal_show_name, weight):
-        if message.text in ['USD', 'CNY', 'РУБ']:
+        if message.text in ['USD', 'CNY', 'RUB']:
             currency = message.text
             metal_rate = self.parser.get_commodity_prices(metal_search_name)
+            markup = self.get_default_buttons()
             if metal_rate is not None:
                 price = float(metal_rate.replace(',', '')) * weight
                 price = self.convert_num_from_usd(currency, price)
-                self.bot.reply_to(message, f"Цена {metal_show_name} ({weight} метрических тонн): {price:.2f} {currency}")
-                self.show_default_buttons(message)
+                self.bot.reply_to(message, f"Цена {metal_show_name} ({weight} метрических тонн): {price:.2f} {currency}", reply_markup=markup)
             else:
-                self.bot.reply_to(message, f"Не удалось получить курс {metal_show_name}.")
-                self.show_default_buttons(message)
+                self.bot.reply_to(message, f"Не удалось получить курс {metal_show_name}.", reply_markup=markup)
         else:
             self.bot.reply_to(message, "Пожалуйста, выберите валюту с помощью кнопок.")
 
@@ -148,7 +147,7 @@ class Bot:
 
     def convert_num_from_usd(self, currency, price):
         match currency:
-            case "РУБ":
+            case "RUB":
                 price *= float(self.currency_rater.get_currency_rate('USD'))
             case "CNY":
                 price *= float(self.currency_rater.get_currency_rate('USD'))
